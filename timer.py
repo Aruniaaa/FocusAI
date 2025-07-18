@@ -11,7 +11,7 @@ import cv2
 import numpy as np
 import tensorflow.python
 
-# keras_model1 seems to work, try it in a different environment and if it is accurate even there, lower the threshold
+
 
 
 np.set_printoptions(suppress=True)
