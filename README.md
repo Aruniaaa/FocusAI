@@ -20,14 +20,14 @@ A focus timer website equipped with an AI accountability system to keep you on t
 - Real-time statistics display
 - Performance tracking over time
 
-## 🛠Tech Stack
+## Tech Stack
 
 - **Frontend**: Streamlit
 - **Backend**: Python
 - **Computer Vision**: OpenCV, Keras model (Teachable Machine)
 - **Deployment**: Local Server
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before running the application, ensure you have:
 
