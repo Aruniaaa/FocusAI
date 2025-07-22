@@ -31,7 +31,7 @@ A focus timer website equipped with an AI accountability system to keep you on t
 
 Before running the application, ensure you have:
 
-- Python 3.8 or higher
+- Python 3.10 (creating a virtual environment is recommended)
 - Webcam/Camera access
 - Modern web browser (Chrome, Firefox, Safari)
 - Internet connection for model downloads
@@ -64,7 +64,7 @@ Before running the application, ensure you have:
 
 ### Modify Thresholds
 ```python
-# In timer.py
+# In app.py
  high_conf_count = sum(conf > 0.7 for conf in st.session_state.recent_confidences)  # Adjust between 0.0 - 1.0
 if avg_conf > 0.7 and high_conf_count >= 2: # also adjustable
 ```
