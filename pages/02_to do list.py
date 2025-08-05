@@ -4,7 +4,7 @@ import sqlite3
 
 
 def execute_db_query(query, params=None, fetch=False):
-    conn = sqlite3.connect('project.db')
+    conn = sqlite3.connect('todo.db')
     try:
         cur = conn.cursor()
         if params:
@@ -37,11 +37,11 @@ st.markdown("""
         /* General Body and Font */
         html, body, .stApp {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0f;
+            background: #0a0b14;
             background-image:
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+                radial-gradient(circle at 15% 20%, rgba(102, 125, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(102, 125, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(102, 125, 255, 0.05) 0%, transparent 50%);
             min-height: 100vh;
             overflow-x: hidden; /* Prevent horizontal scroll */
             color: #ffffff; /* Default text color for the app */
@@ -56,20 +56,20 @@ st.markdown("""
             width: 100%;
             height: 100%;
             background-image:
-                radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.1), transparent),
-                radial-gradient(2px 2px at 40px 70px, rgba(255, 119, 198, 0.2), transparent),
-                radial-gradient(1px 1px at 90px 40px, rgba(120, 119, 198, 0.3), transparent),
-                radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.1), transparent);
-            background-size: 200px 100px;
-            animation: particle-float 20s infinite linear;
+                radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.05), transparent),
+                radial-gradient(1px 1px at 40px 70px, rgba(102, 125, 255, 0.1), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(102, 125, 255, 0.08), transparent),
+                radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.03), transparent);
+            background-size: 150px 80px;
+            animation: particle-float 25s infinite linear;
             pointer-events: none;
             z-index: -1;
         }
 
         @keyframes particle-float {
             0% { transform: translateY(0px) translateX(0px); }
-            33% { transform: translateY(-20px) translateX(10px); }
-            66% { transform: translateY(-10px) translateX(-10px); }
+            33% { transform: translateY(-15px) translateX(8px); }
+            66% { transform: translateY(-8px) translateX(-8px); }
             100% { transform: translateY(0px) translateX(0px); }
         }
 
@@ -87,9 +87,9 @@ st.markdown("""
 
         /* Style the header */
         header[data-testid="stHeader"] {
-            background: rgba(10, 10, 15, 0.8) !important;
+            background: rgba(10, 11, 20, 0.9) !important;
             backdrop-filter: blur(20px) !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
         }
 
         /* Style navigation elements (if any) */
@@ -105,17 +105,17 @@ st.markdown("""
         /* Main Title Styling */
         .main-title {
             font-size: clamp(2.5rem, 8vw, 4rem); /* Responsive font size */
-            font-weight: 900;
+            font-weight: 800;
             text-align: center;
-            background: linear-gradient(135deg, #ff77c6, #7877c6, #00d4ff);
-            background-size: 300% 300%;
+            background: linear-gradient(135deg, #667dff, #8fa4ff, #b3c6ff);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin: 3rem 0 2rem 0;
-            letter-spacing: -0.02em;
-            animation: gradient-shift 3s ease-in-out infinite alternate;
-            filter: drop-shadow(0 0 30px rgba(255, 119, 198, 0.3));
+            letter-spacing: -0.03em;
+            animation: gradient-shift 4s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 20px rgba(102, 125, 255, 0.2));
         }
 
         @keyframes gradient-shift {
@@ -126,46 +126,47 @@ st.markdown("""
     padding: 0.6rem 1.2rem;
     border: none;
     border-radius: 12px;
-    background: linear-gradient(90deg, #7877c6, #ff77c6);
+    background: linear-gradient(90deg, #667dff, #8fa4ff);
     color: #ffffff;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(255, 119, 198, 0.3);
+    box-shadow: 0 4px 12px rgba(102, 125, 255, 0.25);
 }
 
 .clear-button:hover {
-    background: linear-gradient(90deg, #ff77c6, #7877c6);
-    box-shadow: 0 6px 18px rgba(255, 119, 198, 0.5);
+    background: linear-gradient(90deg, #8fa4ff, #667dff);
+    box-shadow: 0 6px 18px rgba(102, 125, 255, 0.35);
     transform: translateY(-2px);
 }
 
 .clear-button:active {
     transform: translateY(0);
-    box-shadow: 0 2px 6px rgba(255, 119, 198, 0.2);
+    box-shadow: 0 2px 6px rgba(102, 125, 255, 0.2);
 }
 
 
         /* Glassmorphism Card Style */
         .glassmorphism-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             padding: 2rem;
             margin-bottom: 1.5rem; /* Space between cards */
             box-shadow:
-                0 20px 40px rgba(0, 0, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+                0 20px 40px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .glassmorphism-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow:
-                0 30px 60px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+                0 25px 50px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(102, 125, 255, 0.2);
         }
 
         /* Streamlit Text Area Styling (target specific internal classes) */
@@ -181,9 +182,9 @@ st.markdown("""
             width: 100%;
             min-height: 100px;
             padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
             color: #ffffff;
             font-size: 1rem;
             resize: vertical; /* Allow vertical resizing */
@@ -192,38 +193,38 @@ st.markdown("""
         }
 
         .stTextArea textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .stTextArea textarea:focus {
-            border-color: #7877c6;
-            background: rgba(255, 255, 255, 0.1);
+            border-color: #667dff;
+            background: rgba(255, 255, 255, 0.05);
         }
 
         /* Streamlit Button Styling */
         .stButton > button {
             padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 15px;
-            background: linear-gradient(90deg, #ff77c6, #7877c6);
+            border-radius: 12px;
+            background: linear-gradient(90deg, #667dff, #8fa4ff);
             color: #ffffff;
             font-size: 1.1rem;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 119, 198, 0.3);
+            box-shadow: 0 5px 15px rgba(102, 125, 255, 0.25);
             width: auto; /* Allow button to size naturally */
         }
 
         .stButton > button:hover {
-            background: linear-gradient(90deg, #7877c6, #ff77c6);
-            box-shadow: 0 8px 20px rgba(255, 119, 198, 0.5);
+            background: linear-gradient(90deg, #8fa4ff, #667dff);
+            box-shadow: 0 8px 20px rgba(102, 125, 255, 0.35);
             transform: translateY(-2px);
         }
 
         .stButton > button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(255, 119, 198, 0.2);
+            box-shadow: 0 2px 5px rgba(102, 125, 255, 0.2);
         }
 
         /* To-Do Item Styling (for dynamic rendering) */
@@ -232,17 +233,18 @@ st.markdown("""
             align-items: center;
             justify-content: space-between;
             padding: 1rem 1.5rem;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 0.8rem; /* Space between items */
             transition: all 0.2s ease;
         }
 
         .todo-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: scale(1.01);
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.005);
+            border: 1px solid rgba(102, 125, 255, 0.15);
         }
 
         .todo-text {
@@ -263,26 +265,26 @@ st.markdown("""
             border: none;
             font-size: 1.2rem;
             cursor: pointer;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(255, 255, 255, 0.6);
             transition: color 0.2s ease, transform 0.2s ease;
         }
 
         .action-button:hover {
-            color: #ff77c6;
+            color: #8fa4ff;
             transform: scale(1.1);
         }
 
         .action-button.delete:hover {
-            color: #ff4d4d; /* Red for delete */
+            color: #ff6b6b; /* Red for delete */
         }
 
         .action-button.complete:hover {
-            color: #4CAF50; /* Green for complete */
+            color: #51cf66; /* Green for complete */
         }
 
         .todo-item.completed .todo-text {
             text-decoration: line-through;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         /* Responsive adjustments */
@@ -336,16 +338,14 @@ with st.container():
     )
 
     # Use a column to right-align the button
-    col1, col2 = st.columns([0.7, 0.3])
+    col1, col2 = st.columns([0.8, 0.2])
     with col2:
         enter_button = st.button("Add Task", key="add_task_button")
     st.markdown('</div>', unsafe_allow_html=True)
 
 
 
-if "db_task" not in st.session_state:
-    st.session_state.db_task = sqlite3.connect('todo.db')
-    execute_db_query("""
+execute_db_query("""
 CREATE TABLE IF NOT EXISTS tasks (
 id INTEGER PRIMARY KEY AUTOINCREMENT,
 task TEXT,
@@ -400,8 +400,3 @@ with st.container():
 
 
     st.markdown('</div>', unsafe_allow_html=True)
-
-
-
-
-
