@@ -37,11 +37,11 @@ st.markdown("""
     }
     
     .stApp {
-        background: #0a0a0f;
+        background: #0a0b14;
         background-image: 
-            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+            radial-gradient(circle at 15% 20%, rgba(102, 125, 255, 0.15) 0%, transparent 40%),
+            radial-gradient(circle at 85% 80%, rgba(102, 125, 255, 0.1) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(102, 125, 255, 0.05) 0%, transparent 50%);
         min-height: 100vh;
         overflow: auto; /* Changed to auto to allow scrolling for charts */
     }
@@ -55,23 +55,23 @@ st.markdown("""
         width: 100%;
         height: 100%;
         background-image: 
-            radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.1), transparent),
-            radial-gradient(2px 2px at 40px 70px, rgba(255, 119, 198, 0.2), transparent),
-            radial-gradient(1px 1px at 90px 40px, rgba(120, 119, 198, 0.3), transparent),
-            radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.1), transparent);
-        background-size: 200px 100px;
-        animation: particle-float 20s infinite linear;
+            radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.05), transparent),
+            radial-gradient(1px 1px at 40px 70px, rgba(102, 125, 255, 0.1), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(102, 125, 255, 0.08), transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.03), transparent);
+        background-size: 150px 80px;
+        animation: particle-float 25s infinite linear;
         pointer-events: none;
         z-index: -1;
     }
     
     @keyframes particle-float {
         0% { transform: translateY(0px) translateX(0px); }
-        33% { transform: translateY(-20px) translateX(10px); }
-        66% { transform: translateY(-10px) translateX(-10px); }
+        33% { transform: translateY(-15px) translateX(8px); }
+        66% { transform: translateY(-8px) translateX(-8px); }
         100% { transform: translateY(0px) translateX(0px); }
     }
-    
+            
     
     .main .block-container {
         padding-top: 2rem !important;
@@ -81,17 +81,17 @@ st.markdown("""
     
     .main-title {
         font-size: 4rem;
-        font-weight: 900;
+        font-weight: 800;
         text-align: center;
-        background: linear-gradient(135deg, #ff77c6, #7877c6, #00d4ff);
-        background-size: 300% 300%;
+        background: linear-gradient(135deg, #667dff, #8fa4ff, #b3c6ff);
+        background-size: 200% 200%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin: 3rem 0 4rem 0;
-        letter-spacing: -0.02em;
-        animation: gradient-shift 3s ease-in-out infinite alternate;
-        filter: drop-shadow(0 0 30px rgba(255, 119, 198, 0.3));
+        letter-spacing: -0.03em;
+        animation: gradient-shift 4s ease-in-out infinite alternate;
+        filter: drop-shadow(0 0 20px rgba(102, 125, 255, 0.2));
     }
     
     @keyframes gradient-shift {
@@ -99,43 +99,97 @@ st.markdown("""
         100% { background-position: 100% 50%; }
     }
     
+    .timer-container {
+        display: flex;
+        justify-content: center;
+        margin: 3rem 0;
+    }
+    
+    .timer-display {
+        font-size: 5rem;
+        font-weight: 700;
+        text-align: center;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(25px);
+        padding: 3rem 4rem;
+        border-radius: 24px;
+        margin: 2rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 
+            0 25px 50px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        position: relative;
+        overflow: hidden;
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    
+    .timer-display::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(102, 125, 255, 0.1), transparent);
+        animation: shine 4s infinite;
+    }
+    
+    @keyframes shine {
+        0% { left: -100%; }
+        100% { left: 100%; }
+    }
+    
+    .status-text {
+        font-size: 1.4rem;
+        text-align: center;
+        margin: 2rem 0;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.8);
+        text-shadow: 0 0 15px rgba(102, 125, 255, 0.3);
+    }
+    
     .glassmorphism-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        border-radius: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(25px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         padding: 2rem;
         margin: 1.5rem auto; /* Center the card */
         box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 20px 40px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         max-width: 800px; /* Limit width for better chart appearance */
     }
     
     .glassmorphism-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-3px);
         box-shadow: 
-            0 30px 60px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            0 25px 50px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(102, 125, 255, 0.2);
     }
-
+    
     .stButton > button {
         width: 100% !important;
         height: 70px !important;
-        font-size: 1.3rem !important;
-        font-weight: 700 !important;
-        border-radius: 20px !important;
+        font-size: 1.2rem !important;
+        font-weight: 600 !important;
+        border-radius: 16px !important;
         border: none !important;
-        background: linear-gradient(135deg, #ff77c6, #7877c6) !important;
+        background: linear-gradient(135deg, #667dff, #8fa4ff) !important;
         color: white !important;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         margin: 1rem 0 !important;
         text-transform: uppercase !important;
-        letter-spacing: 1px !important;
+        letter-spacing: 0.8px !important;
         position: relative !important;
         overflow: hidden !important;
-        box-shadow: 0 10px 30px rgba(255, 119, 198, 0.3) !important;
+        box-shadow: 0 8px 25px rgba(102, 125, 255, 0.25) !important;
     }
     
     .stButton > button::before {
@@ -145,8 +199,8 @@ st.markdown("""
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: left 0.6s;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        transition: left 0.5s;
     }
     
     .stButton > button:hover::before {
@@ -154,41 +208,149 @@ st.markdown("""
     }
     
     .stButton > button:hover {
-        transform: translateY(-3px) !important;
-        box-shadow: 0 20px 40px rgba(255, 119, 198, 0.4) !important;
-        background: linear-gradient(135deg, #ff88d1, #8988d1) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 15px 35px rgba(102, 125, 255, 0.35) !important;
+        background: linear-gradient(135deg, #7a8eff, #a3b6ff) !important;
     }
     
     .stButton > button:active {
-        transform: translateY(-1px) !important;
+        transform: translateY(0px) !important;
+    }
+    
+    .phone-warning {
+        background: linear-gradient(135deg, rgba(255, 71, 87, 0.8), rgba(255, 107, 122, 0.7));
+        backdrop-filter: blur(25px);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 16px;
+        text-align: center;
+        font-weight: 600;
+        margin: 1.5rem 0;
+        font-size: 1.2rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 12px 30px rgba(255, 71, 87, 0.25);
+        animation: pulse-warning 2.5s infinite;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+    }
+    
+    @keyframes pulse-warning {
+        0%, 100% { transform: scale(1); box-shadow: 0 12px 30px rgba(255, 71, 87, 0.25); }
+        50% { transform: scale(1.01); box-shadow: 0 15px 35px rgba(255, 71, 87, 0.35); }
+    }
+    
+    .stats-text {
+        color: rgba(255, 255, 255, 0.9);
+        text-align: left;
+        font-size: 1.1rem;
+        line-height: 1.7;
+    }
+    
+    .stats-text h3 {
+        background: linear-gradient(135deg, #667dff, #8fa4ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.4rem;
+        font-weight:700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        letter-spacing: -0.01em;
+    }
+    
+    .stats-text p {
+        margin: 0.8rem 0;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .stats-text strong {
+        color: #8fa4ff;
+        font-weight: 600;
+    }
+    
+    .metric-container {
+        background: rgba(255, 255, 255, 0.015);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        transition: all 0.3s ease;
+    }
+    
+    .metric-container:hover {
+        background: rgba(255, 255, 255, 0.03);
+        transform: translateY(-1px);
+        border: 1px solid rgba(102, 125, 255, 0.15);
+    }
+    
+    .metric-label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-value {
+        font-size: 2rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667dff, #8fa4ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        margin: 3rem 0;
+    }
+    
+    /* Expander styling */
+    .streamlit-expanderHeader {
+        background: rgba(255, 255, 255, 0.02) !important;
+        backdrop-filter: blur(25px) !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #ffffff !important;
+        font-weight: 500 !important;
+    }
+    
+    .streamlit-expanderContent {
+        background: rgba(255, 255, 255, 0.015) !important;
+        backdrop-filter: blur(25px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 0 0 12px 12px !important;
     }
     
     /* Custom scrollbar */
     ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
     }
     
     ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
     }
     
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #ff77c6, #7877c6);
-        border-radius: 10px;
+        background: linear-gradient(135deg, #667dff, #8fa4ff);
+        border-radius: 8px;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #ff88d1, #8988d1);
+        background: linear-gradient(135deg, #7a8eff, #a3b6ff);
     }
 
     /* Altair chart styling */
     .st-emotion-cache-1r6dm1x { /* This targets the Altair chart container */
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.015);
+        border-radius: 12px;
         padding: 1.5rem;
         margin: 1rem 0;
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.04);
         box-shadow: none !important; /* Remove default chart shadow */
     }
     .st-emotion-cache-1r6dm1x .st-emotion-cache-1r6dm1x { /* Nested containers */
@@ -200,34 +362,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-DEBUG_MODE = False
+
 
 st.markdown('<h1 class="main-title"> FocusAI Stats</h1>', unsafe_allow_html=True)
 
 
-if DEBUG_MODE:
-    st.markdown("---")
-    st.markdown("### 🔍 DEBUG INFO")
-    
-    # Show database contents
-    debug_data = execute_db_query("SELECT * FROM daily_stats WHERE username = ?", ("Student",), fetch=True)
-    if debug_data:
-        st.write("**Daily Stats Database Contents:**")
-        df_debug = pd.DataFrame(debug_data, columns=['username', 'date', 'focus_time', 'phone_detections']) # change coloumns name to be more user friendly
-        st.dataframe(df_debug)
-    else:
-        st.write("**Daily Stats Database is EMPTY!**")
-    
-    # Show project table
-    project_data = execute_db_query("SELECT * FROM project WHERE username = ?", ("Student",), fetch=True)
-    if project_data:
-        st.write("**Project Table Contents:**")
-        st.write(project_data[0])
 
 
 def get_week_data(username): 
     today = datetime.now()
     week_dates = [(today - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(6, -1, -1)]
+
     
     # Create a complete week dataframe with all dates
     complete_week_df = pd.DataFrame({
@@ -236,6 +381,7 @@ def get_week_data(username):
         'phone_detections': [0] * 7,  # Default to 0
         'focus_time_mins': [0.0] * 7  # Default to 0.0
     })
+
     
     # Fetch actual data from database
     conn = sqlite3.connect('project.db')
@@ -246,6 +392,7 @@ def get_week_data(username):
         ORDER BY date
     """.format(','.join(['?']*len(week_dates))), conn, params=[username] + week_dates)
     conn.close()
+
     
     # If we have actual data, merge it with the complete week
     if not actual_data.empty:
@@ -273,7 +420,7 @@ if not df.empty:
         st.markdown('<div class="glassmorphism-card">', unsafe_allow_html=True)
         # Focus time chart
         focus_chart = alt.Chart(df).mark_bar(color='#ff77c6').encode( # Changed color to match theme
-            x=alt.X('date:T', title='Date', axis=alt.Axis(format='%m/%d')),
+            x=alt.X('date:T', title='Date', axis=alt.Axis(format='%m/%d', tickCount=8)),
             y=alt.Y('focus_time_mins:Q', title='Focus Time (minutes)'),
             tooltip=['date', 'focus_time_mins']
         ).properties(
@@ -293,7 +440,7 @@ if not df.empty:
         
         # Phone detections chart
         phone_chart = alt.Chart(df).mark_bar(color='#7877c6').encode( # Changed color to match theme
-            x=alt.X('date:T', title='Date', axis=alt.Axis(format='%m/%d')),
+            x=alt.X('date:T', title='Date', axis=alt.Axis(format='%m/%d', tickCount=8)),
             y=alt.Y('phone_detections:Q', title='Phone Detections'),
             tooltip=['date', 'phone_detections']
         ).properties(
@@ -318,15 +465,7 @@ if not df.empty:
         if df['focus_time_mins'].sum() == 0 and df['phone_detections'].sum() == 0:
             st.info("📊 No focus session data yet. Complete some focus sessions to see your progress!")
         
-        if DEBUG_MODE:
-            st.write("**Chart Data:**")
-            st.dataframe(df)
-            
-            st.write("**Week dates being queried:**")
-            today = datetime.now()
-            week_dates = [(today - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(6, -1, -1)]
-            st.write(week_dates)
-        st.markdown('</div>', unsafe_allow_html=True) # Close the glassmorphism-card div
+
 else:
     st.error("Error creating week dataframe")
 
