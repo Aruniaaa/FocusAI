@@ -1,3 +1,5 @@
+# importing all the necessary libraries
+
 import os
 os.environ["STREAMLIT_WATCH_USE_POLLING"] = "true"
 import streamlit as st
@@ -18,8 +20,7 @@ from datetime import datetime, timedelta
 
 
 
-
-# Load the labels
+# Loading  the labels
 class_names = open("labels.txt", "r").readlines()
  
 
@@ -31,6 +32,8 @@ today_string = today.strftime("%Y-%m-%d")
 day = today - timedelta(days=today.weekday())
 day_string = day.strftime("%Y-%m-%d")
 
+
+# makes the database management consistent, reusable, and less error-prone
 def execute_db_query(query, params=None, fetch=False):
     conn = sqlite3.connect('project.db')
     try:
@@ -113,125 +116,6 @@ total_focus_time_week = data[0][5]
 times_phone_stopped_week = data[0][6]
 last_day_reset = data[0][7]
 last_week_reset = data[0][8]
-
-
-
-import os
-os.environ["STREAMLIT_WATCH_USE_POLLING"] = "true"
-import streamlit as st
-import pandas as pd
-import time
-import datetime
-import cv2
-import sqlite3
-import winsound
-from keras.models import load_model  
-import cv2  
-import numpy as np
-import tensorflow.python
-import tensorflow as tf
-import altair as alt
-from datetime import datetime, timedelta
-
-
-
-
-
-# Load the labels
-class_names = open("labels.txt", "r").readlines()
- 
-
-
-
-
-today = datetime.now()
-today_string = today.strftime("%Y-%m-%d")
-day = today - timedelta(days=today.weekday())
-day_string = day.strftime("%Y-%m-%d")
-
-def execute_db_query(query, params=None, fetch=False):
-    conn = sqlite3.connect('project.db')
-    try:
-        cur = conn.cursor()
-        if params:
-            cur.execute(query, params)
-        else:
-            cur.execute(query)
-        
-        if fetch:
-            result = cur.fetchall()
-            conn.close()
-            return result
-        else:
-            conn.commit()
-            conn.close()
-    except sqlite3.Error as e:
-        conn.close()
-        raise e
-
-execute_db_query("""CREATE TABLE IF NOT EXISTS project(
-    username text,
-    total_sesh_day integer,
-    total_focus_time_day real,
-    times_phone_stopped_day integer,
-    total_sesh_week integer,
-    total_focus_time_week real,
-    times_phone_stopped_week integer,
-    last_day_reset text,
-    last_week_reset text
-)""")
-
-execute_db_query("""CREATE TABLE IF NOT EXISTS daily_stats (
-    username TEXT,
-    date TEXT,
-    focus_time INTEGER,
-    phone_detections INTEGER,
-    PRIMARY KEY (username, date)
-)""")
-
-
-data = execute_db_query("SELECT * FROM project WHERE username = ?", ("Student",), fetch=True)
-
-if len(data) == 0:
-    execute_db_query("INSERT INTO project VALUES ('Student', 0, 0, 0, 0, 0, 0, '0-0-0', '0-0-0')")
-    data = execute_db_query("SELECT * FROM project WHERE username = ?", ("Student",), fetch=True)
-
-username = data[0][0]
-last_day_reset = data[0][7]
-last_week_reset = data[0][8]
-
-if today_string != last_day_reset:
-    execute_db_query("""UPDATE project SET
-                 total_sesh_day = ?,
-                 total_focus_time_day = ?,
-                 times_phone_stopped_day = ?, 
-                 last_day_reset = ?
-                 WHERE username = ?""", (0, 0, 0, today_string, username))
-    
-    data = execute_db_query("SELECT * FROM project WHERE username = ?", ("Student",), fetch=True)
-
-
-if day_string != last_week_reset:
-    execute_db_query("""UPDATE project SET
-                 total_sesh_week = ?,
-                 total_focus_time_week = ?,
-                 times_phone_stopped_week = ?,
-                 last_week_reset = ?
-                 WHERE username = ?""", (0, 0, 0, day_string, username))
-    
-    data = execute_db_query("SELECT * FROM project WHERE username = ?", ("Student",), fetch=True)
-
-
-username = data[0][0]
-total_sesh_day = data[0][1]
-total_focus_time_day = data[0][2]
-times_phone_stopped_day = data[0][3]
-total_sesh_week = data[0][4]
-total_focus_time_week = data[0][5]
-times_phone_stopped_week = data[0][6]
-last_day_reset = data[0][7]
-last_week_reset = data[0][8]
-
 
 
 
@@ -251,11 +135,11 @@ st.markdown("""
     }
     
     .stApp {
-        background: #0a0a0f;
+        background: #0a0b14;
         background-image: 
-            radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+            radial-gradient(circle at 15% 20%, rgba(102, 125, 255, 0.15) 0%, transparent 40%),
+            radial-gradient(circle at 85% 80%, rgba(102, 125, 255, 0.1) 0%, transparent 40%),
+            radial-gradient(circle at 50% 50%, rgba(102, 125, 255, 0.05) 0%, transparent 50%);
         min-height: 100vh;
         overflow: hidden;
     }
@@ -269,20 +153,20 @@ st.markdown("""
         width: 100%;
         height: 100%;
         background-image: 
-            radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.1), transparent),
-            radial-gradient(2px 2px at 40px 70px, rgba(255, 119, 198, 0.2), transparent),
-            radial-gradient(1px 1px at 90px 40px, rgba(120, 119, 198, 0.3), transparent),
-            radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.1), transparent);
-        background-size: 200px 100px;
-        animation: particle-float 20s infinite linear;
+            radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.05), transparent),
+            radial-gradient(1px 1px at 40px 70px, rgba(102, 125, 255, 0.1), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(102, 125, 255, 0.08), transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.03), transparent);
+        background-size: 150px 80px;
+        animation: particle-float 25s infinite linear;
         pointer-events: none;
         z-index: -1;
     }
     
     @keyframes particle-float {
         0% { transform: translateY(0px) translateX(0px); }
-        33% { transform: translateY(-20px) translateX(10px); }
-        66% { transform: translateY(-10px) translateX(-10px); }
+        33% { transform: translateY(-15px) translateX(8px); }
+        66% { transform: translateY(-8px) translateX(-8px); }
         100% { transform: translateY(0px) translateX(0px); }
     }
             
@@ -300,9 +184,9 @@ st.markdown("""
     
     /* Style the header but don't hide it completely */
     header[data-testid="stHeader"] {
-        background: rgba(10, 10, 15, 0.8) !important;
+        background: rgba(10, 11, 20, 0.9) !important;
         backdrop-filter: blur(20px) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
     
     /* Style navigation elements */
@@ -324,17 +208,17 @@ st.markdown("""
     
     .main-title {
         font-size: 4rem;
-        font-weight: 900;
+        font-weight: 800;
         text-align: center;
-        background: linear-gradient(135deg, #ff77c6, #7877c6, #00d4ff);
-        background-size: 300% 300%;
+        background: linear-gradient(135deg, #667dff, #8fa4ff, #b3c6ff);
+        background-size: 200% 200%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         margin: 3rem 0 4rem 0;
-        letter-spacing: -0.02em;
-        animation: gradient-shift 3s ease-in-out infinite alternate;
-        filter: drop-shadow(0 0 30px rgba(255, 119, 198, 0.3));
+        letter-spacing: -0.03em;
+        animation: gradient-shift 4s ease-in-out infinite alternate;
+        filter: drop-shadow(0 0 20px rgba(102, 125, 255, 0.2));
     }
     
     @keyframes gradient-shift {
@@ -350,22 +234,22 @@ st.markdown("""
     
     .timer-display {
         font-size: 5rem;
-        font-weight: 800;
+        font-weight: 700;
         text-align: center;
         color: #ffffff;
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(25px);
         padding: 3rem 4rem;
-        border-radius: 30px;
+        border-radius: 24px;
         margin: 2rem 0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 25px 50px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
         position: relative;
         overflow: hidden;
         letter-spacing: -0.02em;
-        text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
     }
     
     .timer-display::before {
@@ -375,8 +259,8 @@ st.markdown("""
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        animation: shine 3s infinite;
+        background: linear-gradient(90deg, transparent, rgba(102, 125, 255, 0.1), transparent);
+        animation: shine 4s infinite;
     }
     
     @keyframes shine {
@@ -388,48 +272,50 @@ st.markdown("""
         font-size: 1.4rem;
         text-align: center;
         margin: 2rem 0;
-        font-weight: 600;
-        letter-spacing: 0.5px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
         text-transform: uppercase;
-        text-shadow: 0 0 20px currentColor;
+        color: rgba(255, 255, 255, 0.8);
+        text-shadow: 0 0 15px rgba(102, 125, 255, 0.3);
     }
     
     .glassmorphism-card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        border-radius: 25px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(25px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         padding: 2rem;
         margin: 1.5rem 0;
         box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            0 20px 40px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .glassmorphism-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-3px);
         box-shadow: 
-            0 30px 60px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            0 25px 50px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(102, 125, 255, 0.2);
     }
     
     .stButton > button {
         width: 100% !important;
         height: 70px !important;
-        font-size: 1.3rem !important;
-        font-weight: 700 !important;
-        border-radius: 20px !important;
+        font-size: 1.2rem !important;
+        font-weight: 600 !important;
+        border-radius: 16px !important;
         border: none !important;
-        background: linear-gradient(135deg, #ff77c6, #7877c6) !important;
+        background: linear-gradient(135deg, #667dff, #8fa4ff) !important;
         color: white !important;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         margin: 1rem 0 !important;
         text-transform: uppercase !important;
-        letter-spacing: 1px !important;
+        letter-spacing: 0.8px !important;
         position: relative !important;
         overflow: hidden !important;
-        box-shadow: 0 10px 30px rgba(255, 119, 198, 0.3) !important;
+        box-shadow: 0 8px 25px rgba(102, 125, 255, 0.25) !important;
     }
     
     .stButton > button::before {
@@ -439,8 +325,8 @@ st.markdown("""
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: left 0.6s;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+        transition: left 0.5s;
     }
     
     .stButton > button:hover::before {
@@ -448,51 +334,51 @@ st.markdown("""
     }
     
     .stButton > button:hover {
-        transform: translateY(-3px) !important;
-        box-shadow: 0 20px 40px rgba(255, 119, 198, 0.4) !important;
-        background: linear-gradient(135deg, #ff88d1, #8988d1) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 15px 35px rgba(102, 125, 255, 0.35) !important;
+        background: linear-gradient(135deg, #7a8eff, #a3b6ff) !important;
     }
     
     .stButton > button:active {
-        transform: translateY(-1px) !important;
+        transform: translateY(0px) !important;
     }
     
     .phone-warning {
-        background: linear-gradient(135deg, rgba(255, 71, 87, 0.9), rgba(255, 107, 122, 0.8));
-        backdrop-filter: blur(20px);
+        background: linear-gradient(135deg, rgba(255, 71, 87, 0.8), rgba(255, 107, 122, 0.7));
+        backdrop-filter: blur(25px);
         color: white;
         padding: 1.5rem;
-        border-radius: 20px;
+        border-radius: 16px;
         text-align: center;
-        font-weight: 700;
+        font-weight: 600;
         margin: 1.5rem 0;
-        font-size: 1.3rem;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        box-shadow: 0 15px 35px rgba(255, 71, 87, 0.3);
-        animation: pulse-warning 2s infinite;
-        letter-spacing: 0.5px;
+        font-size: 1.2rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 12px 30px rgba(255, 71, 87, 0.25);
+        animation: pulse-warning 2.5s infinite;
+        letter-spacing: 0.3px;
         text-transform: uppercase;
     }
     
     @keyframes pulse-warning {
-        0%, 100% { transform: scale(1); box-shadow: 0 15px 35px rgba(255, 71, 87, 0.3); }
-        50% { transform: scale(1.02); box-shadow: 0 20px 45px rgba(255, 71, 87, 0.5); }
+        0%, 100% { transform: scale(1); box-shadow: 0 12px 30px rgba(255, 71, 87, 0.25); }
+        50% { transform: scale(1.01); box-shadow: 0 15px 35px rgba(255, 71, 87, 0.35); }
     }
     
     .stats-text {
-        color: #ffffff;
+        color: rgba(255, 255, 255, 0.9);
         text-align: left;
         font-size: 1.1rem;
-        line-height: 1.8;
+        line-height: 1.7;
     }
     
     .stats-text h3 {
-        background: linear-gradient(135deg, #ff77c6, #7877c6);
+        background: linear-gradient(135deg, #667dff, #8fa4ff);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         font-size: 1.4rem;
-        font-weight: 800;
+        font-weight:700;
         margin-bottom: 1.5rem;
         text-align: center;
         letter-spacing: -0.01em;
@@ -501,41 +387,42 @@ st.markdown("""
     .stats-text p {
         margin: 0.8rem 0;
         padding: 0.5rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     
     .stats-text strong {
-        color: #ff77c6;
+        color: #8fa4ff;
         font-weight: 600;
     }
     
     .metric-container {
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.015);
+        border-radius: 12px;
         padding: 1.5rem;
         margin: 1rem 0;
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.04);
         transition: all 0.3s ease;
     }
     
     .metric-container:hover {
-        background: rgba(255, 255, 255, 0.05);
-        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.03);
+        transform: translateY(-1px);
+        border: 1px solid rgba(102, 125, 255, 0.15);
     }
     
     .metric-label {
         font-size: 0.9rem;
-        color: #a0a0a0;
+        color: rgba(255, 255, 255, 0.6);
         font-weight: 500;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 0.8px;
         margin-bottom: 0.5rem;
     }
     
     .metric-value {
         font-size: 2rem;
-        font-weight: 800;
-        background: linear-gradient(135deg, #ff77c6, #7877c6);
+        font-weight: 700;
+        background: linear-gradient(135deg, #667dff, #8fa4ff);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -543,44 +430,44 @@ st.markdown("""
     
     .divider {
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
         margin: 3rem 0;
     }
     
     /* Expander styling */
     .streamlit-expanderHeader {
-        background: rgba(255, 255, 255, 0.03) !important;
-        backdrop-filter: blur(20px) !important;
-        border-radius: 15px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        backdrop-filter: blur(25px) !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
         color: #ffffff !important;
-        font-weight: 600 !important;
+        font-weight: 500 !important;
     }
     
     .streamlit-expanderContent {
-        background: rgba(255, 255, 255, 0.02) !important;
-        backdrop-filter: blur(20px) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 0 0 15px 15px !important;
+        background: rgba(255, 255, 255, 0.015) !important;
+        backdrop-filter: blur(25px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 0 0 12px 12px !important;
     }
     
     /* Custom scrollbar */
     ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
     }
     
     ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
     }
     
     ::-webkit-scrollbar-thumb {
-        background: linear-gradient(135deg, #ff77c6, #7877c6);
-        border-radius: 10px;
+        background: linear-gradient(135deg, #667dff, #8fa4ff);
+        border-radius: 8px;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(135deg, #ff88d1, #8988d1);
+        background: linear-gradient(135deg, #7a8eff, #a3b6ff);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -610,7 +497,6 @@ if 'false_detection_start_time' not in st.session_state:
     st.session_state.false_detection_start_time = None
 if 'false_detected' not in st.session_state:
     st.session_state.false_detected = False
-
 if 'paused_time' not in st.session_state:
     st.session_state.paused_time = 0
 if 'pause_start_time' not in st.session_state:
@@ -620,7 +506,7 @@ if "model" not in st.session_state:
     try:
         st.session_state.model = load_model("keras_model.h5", compile=False)
     except Exception as e:
-        print(f"⏳💀💀💀⏳Could not load model: {e}")
+        print(f"‼️‼️‼️Could not load model: {e}‼️‼️‼️")
 
 
 if 'video' not in st.session_state:
@@ -631,7 +517,6 @@ if 'video' not in st.session_state:
 
 if 'recent_confidences' not in st.session_state:
     st.session_state.recent_confidences = []
-
 
 
 
@@ -650,17 +535,17 @@ if 'phone_detection_threshold' not in st.session_state:
 
 def preprocess_frame(frame):
 
-    frame = cv2.resize(frame, (224, 224))
+    frame = cv2.resize(frame, (224, 224)) # standardizes the input size to 224 x 224 pixels
     
 
-    yuv = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV)
+    yuv = cv2.cvtColor(frame, cv2.COLOR_BGR2YUV) # Y (luminance), U (blue projection), and V (red projection)
     
     
-    yuv[:, :, 0] = cv2.equalizeHist(yuv[:, :, 0])
+    yuv[:, :, 0] = cv2.equalizeHist(yuv[:, :, 0]) # extracts the y channel and redistributes the brightness across the image
 
     frame = cv2.cvtColor(yuv, cv2.COLOR_YUV2BGR)
 
-    frame = np.asarray(frame, dtype=np.float32).reshape(1, 224, 224, 3)
+    frame = np.asarray(frame, dtype=np.float32).reshape(1, 224, 224, 3) # 1 image, 224 pixels high, 224 pixels wide, 3 channels
     frame = (frame / 127.5) - 1
 
     return frame
@@ -720,10 +605,6 @@ if st.session_state.timer_running and not st.session_state.false_detection_windo
        st.session_state.recent_confidences.pop(0)
 
 
-        
-    st.session_state.recent_confidences.append(phone_confidence)
-    if len(st.session_state.recent_confidences) > 5:
-        st.session_state.recent_confidences.pop(0)
 
     avg_conf = np.mean(st.session_state.recent_confidences)
     high_conf_count = sum(conf > 0.7 for conf in st.session_state.recent_confidences)
@@ -837,10 +718,7 @@ if st.session_state.false_detection_window:
             st.session_state.false_detected = False
 
     
-
-   
-
-      
+  
           
 
 if st.session_state.stopped_by_phone:
@@ -999,4 +877,3 @@ with stats_col2:
         </div>
         """, unsafe_allow_html=True)
     
-
